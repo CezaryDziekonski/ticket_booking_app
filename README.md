@@ -21,11 +21,11 @@ The script:
   `$ service ticket_app stop`
   
 ### Runnning use case script. 
-It use "jq" to display json responses. Jq can be installed by:
-  `$ apt-get jq`
+It use "jq" to display json responses. Jq can be installed by:  
+  `$ apt-get jq`  
   
-1. Run use case script  
-  `$ ./ticket_booking_app/use_case_script`  
+1. Run use case script    
+  `$ ./ticket_booking_app/use_case_script`    
   
-2. Path to example output:  
-`/ticket_booking_app/use_case_output.txt`  
+2. Path to example output:    
+`/ticket_booking_app/use_case_output.txt`    
