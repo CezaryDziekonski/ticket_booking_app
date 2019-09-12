@@ -1,7 +1,6 @@
 # ticket_booking_app
 
-Application for booking tickets at cinema. Operations are exposed as REST services.
-
+Application for booking tickets at cinema. Operations are exposed as REST services.  
 Application is written in Java using: Java 12, Spring Boot 2, Hibernate, Mysql 5.7, jUnit 5.
 
 
@@ -11,7 +10,7 @@ Application is written in Java using: Java 12, Spring Boot 2, Hibernate, Mysql 5
 
 2. Run script
 
-  $ ./ticket_booking_app/run_script
+  `$ ./ticket_booking_app/run_script`
   
 The script:
 
@@ -27,19 +26,19 @@ The script:
   
 3. Service can be stopped by:
 
-  $ service ticket_app stop
+  `$ service ticket_app stop`
   
 
 - Runnning use case script. 
 
 It use "jq" to display json responses. Jq can be installed by:
 
-  $ apt-get jq
+  `$ apt-get jq`
   
 1. Run use case script
 
-  $ ./ticket_booking_app/use_case_script
+  `$ ./ticket_booking_app/use_case_script`
   
 2. Path to example output:
 
-/ticket_booking_app/use_case_output.txt
+`/ticket_booking_app/use_case_output.txt`
