@@ -5,7 +5,7 @@ Application is written in Java using: Java 12, Spring Boot 2, Hibernate, Mysql 5
 
 ### In order to build and run application use Docker.
 
-Navigate to the repository folder and run:
+Navigate to the repository folder and run:  
 `$ docker-compose up`  
 It runs two containers on single host:  
 - spring boot application
