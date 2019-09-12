@@ -12,5 +12,4 @@ import com.mordor.model.enitity.Seat;
 public interface SeatDAO extends CrudRepository<Seat, Long> {
 	Iterable<Seat> findByRoom(Room room);
 	List<Seat> findByIdIn(List<Long> ids);
-
 }

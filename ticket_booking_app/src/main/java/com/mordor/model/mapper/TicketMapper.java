@@ -1,9 +1,8 @@
-package com.mordor.model.converter;
+package com.mordor.model.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import com.mordor.Utils.ResourceNotFoundException;
+
 import com.mordor.model.dto.TicketDTO;
 import com.mordor.model.enitity.MovieScreening;
 import com.mordor.model.enitity.Seat;
@@ -14,26 +13,29 @@ import com.mordor.service.SeatService;
 import com.mordor.service.TicketTypeService;
 
 @Component
-@Qualifier("ticketConverter")
-public class TicketDtoConverter implements ConverterDTO<TicketDTO, SeatReservation> {
+public class TicketMapper implements MapperDTO<TicketDTO, SeatReservation> {
 
-	@Autowired
 	private SeatService seatService;
 	
-	@Autowired
 	private MovieScreeningService movieScreeningService;
 	
-	@Autowired
 	private TicketTypeService ticketTypeService;
 	
-	
+	@Autowired
+	public TicketMapper(SeatService seatService, MovieScreeningService movieScreeningService,
+			TicketTypeService ticketTypeService) {
+		this.seatService = seatService;
+		this.movieScreeningService = movieScreeningService;
+		this.ticketTypeService = ticketTypeService;
+	}
+
 	@Override
-	public SeatReservation convertToEntity(TicketDTO dto) throws ResourceNotFoundException {
+	public SeatReservation mapToEntity(TicketDTO dto) {
 		Seat seat;
 		MovieScreening movieScreening;
 		TicketType ticketType;
 
-		seat = seatService.findById(dto.getSeatId()).orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundException.SeatNotFound + dto.getSeatId()));
+		seat = seatService.findById(dto.getSeatId());
 		movieScreening = movieScreeningService.findById(dto.getScreeningId());
 		ticketType = ticketTypeService.findById(dto.getTicketTypeId());
 		
@@ -46,9 +48,12 @@ public class TicketDtoConverter implements ConverterDTO<TicketDTO, SeatReservati
 	}
 
 	@Override
-	public TicketDTO convertToDto(SeatReservation entity) {
-		// TODO Auto-generated method stub
-		return null;
+	public TicketDTO mapToDTO(SeatReservation entity) {
+		TicketDTO ticketDTO = new TicketDTO();
+		ticketDTO.setSeatId(entity.getId());
+		ticketDTO.setScreeningId(entity.getMovieScreening().getId());
+		ticketDTO.setTicketTypeId(entity.getTicketType().getId());
+		
+		return ticketDTO;
 	}
-
 }

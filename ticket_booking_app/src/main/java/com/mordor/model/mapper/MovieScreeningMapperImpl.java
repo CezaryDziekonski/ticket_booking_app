@@ -1,11 +1,10 @@
-package com.mordor.model.converter;
+package com.mordor.model.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import com.mordor.model.dto.MovieScreeningDTO;
 import com.mordor.model.dto.ScreeningsDTO;
@@ -13,11 +12,9 @@ import com.mordor.model.enitity.Movie;
 import com.mordor.model.enitity.MovieScreening;
 
 @Component
-public class MovieScreeningDtoConverterImpl implements MovieScreeningDtoConverter {
-
-	private static final ModelMapper modelMapper = new ModelMapper();
+public class MovieScreeningMapperImpl implements MovieScreeningMapper {
 	
-	public List<ScreeningsDTO> entityListToDto(List<MovieScreening> movieScreenings) {
+	public List<ScreeningsDTO> mapToDTO(List<MovieScreening> movieScreenings) {
 		List<ScreeningsDTO> screeningsDTOs = new ArrayList<ScreeningsDTO>();	
 		Map<Movie, List<MovieScreening>> screeningPerMovie = movieScreenings.stream()
 				.collect(Collectors.groupingBy(MovieScreening::getMovie, Collectors.toList()));

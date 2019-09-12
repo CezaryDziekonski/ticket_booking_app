@@ -73,9 +73,9 @@ insert into movie_screening (screening_time, fk_movie_id, fk_room_id) values('20
 insert into movie_screening (screening_time, fk_movie_id, fk_room_id) values('2019-12-04T18:00:00',6,3);
 insert into movie_screening (screening_time, fk_movie_id, fk_room_id) values('2019-12-04T20:00:00',6,3);
 
-insert into ticket_type(ticket_type_name, price) values('adult', 25);
-insert into ticket_type(ticket_type_name, price) values('student', 18);
-insert into ticket_type(ticket_type_name, price) values('child', 12.5);
+insert into ticket_type(ticket_type_name, price) values('adult', 25.00);
+insert into ticket_type(ticket_type_name, price) values('student', 18.00);
+insert into ticket_type(ticket_type_name, price) values('child', 12.50);
 
 /*
 insert into reservation(expiration_time, name, surname) values('2019-07-03T10:00:00', 'Michał','Sadowski');

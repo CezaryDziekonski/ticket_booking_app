@@ -12,11 +12,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "reservation")
 public class Reservation {
+	
 	@Id
 	@Column(name = "reservation_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,52 +40,4 @@ public class Reservation {
 	
 	@OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
 	private List<SeatReservation> seatReservations;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
-	public Instant getExpirationTime() {
-		return expirationTime;
-	}
-
-	public void setExpirationTime(Instant expirationTime) {
-		this.expirationTime = expirationTime;
-	}
-
-	public Boolean IsConfirmed() {
-		return confirmed;
-	}
-
-	public void setConfirmed(Boolean confirmed) {
-		this.confirmed = confirmed;
-	}
-
-	public List<SeatReservation> getSeatReservations() {
-		return seatReservations;
-	}
-
-	public void setSeatReservations(List<SeatReservation> seatReservations) {
-		this.seatReservations = seatReservations;
-	}
 }

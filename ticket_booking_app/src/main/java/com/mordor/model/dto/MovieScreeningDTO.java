@@ -2,29 +2,12 @@ package com.mordor.model.dto;
 
 import java.time.Instant;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class MovieScreeningDTO {
-
-	private Long id;
-	
-	private Instant screeningTime;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Instant getScreeningTime() {
-		return screeningTime;
-	}
-
-	public void setScreeningTime(Instant screeningTime) {
-		this.screeningTime = screeningTime;
-	}
-
-	
-	
-	
+	private Long id;	
+	private Instant screeningTime;	
 }

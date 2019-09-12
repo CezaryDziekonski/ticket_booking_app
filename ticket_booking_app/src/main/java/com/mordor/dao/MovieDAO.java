@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.mordor.model.enitity.Movie;
 
 @Repository
-public interface MovieDAO extends CrudRepository<Movie, Long> {
-	
+public interface MovieDAO extends CrudRepository<Movie, Long> {	
+
 }
