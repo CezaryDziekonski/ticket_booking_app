@@ -3,8 +3,7 @@
 Application for booking tickets at cinema. Operations are exposed as REST services.  
 Application is written in Java using: Java 12, Spring Boot 2, Hibernate, Mysql 5.7, jUnit 5.
 
-
-- In order to run application use shell script.
+##In order to run application use shell script.
 
 1. Mysql server have to be running and Maven should be installed.
 
@@ -13,23 +12,16 @@ Application is written in Java using: Java 12, Spring Boot 2, Hibernate, Mysql 5
   `$ ./ticket_booking_app/run_script`
   
 The script:
-
-  -creates database 'cinema_db'
-  
-  -creates user 'cinema_user'
-  
-  -build application using Maven
-  
-  -creates system user 'ticket_app_user'
-  
-  -creates and run service 'ticket_app'
+  *creates database `cinema_db`
+  *creates user `cinema_user`
+  *build application using Maven
+  *creates system user `ticket_app_user`
+  *creates and run service `ticket_app`
   
 3. Service can be stopped by:
-
   `$ service ticket_app stop`
   
-
-- Runnning use case script. 
+##Runnning use case script. 
 
 It use "jq" to display json responses. Jq can be installed by:
 
