@@ -3,23 +3,17 @@
 Application for booking tickets at cinema. Operations are exposed as REST services.  
 Application is written in Java using: Java 12, Spring Boot 2, Hibernate, Mysql 5.7, jUnit 5.  
 
-### In order to run application use shell script.
+### In order to build and run application use Docker.
 
-1. Mysql server have to be running and Maven should be installed.  
+Navigate to the repository folder and run:
+`$ docker-compose up`  
+It runs two containers on single host:  
+- spring boot application
+- mysql server
 
-2. Run script  
-  `$ ./ticket_booking_app/run_script`
-  
-The script:  
-  * creates database `cinema_db`  
-  * creates user `cinema_user`  
-  * build application using Maven  
-  * creates system user `ticket_app_user`  
-  * creates and run service `ticket_app`  
-  
-3. Service can be stopped by:
-  `$ service ticket_app stop`
-  
+To stop all services use:  
+`$docker-compose down`  
+
 ### Runnning use case script. 
 It use "jq" to display json responses. Jq can be installed by:  
   `$ apt-get jq`  
