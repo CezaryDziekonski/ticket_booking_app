@@ -19,5 +19,5 @@ public interface MovieScreeningController {
 	@RequestMapping(value = "/screening", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ScreeningsDTO>getScreenings(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant timeBegin, 
-											@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant timeEnd);	
+			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant timeEnd);	
 }

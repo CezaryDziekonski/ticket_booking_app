@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,15 +34,14 @@ class RestExceptionHandler extends ResponseEntityExceptionHandler {
     
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, 
-    															  HttpHeaders headers, 
-    															  HttpStatus status, 
-    															  WebRequest request) {
+    		HttpHeaders headers, HttpStatus status, WebRequest request) {
+    	
         List<String> errors = new ArrayList<String>();
         
-        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errors.add(error.getField() + ": " + error.getDefaultMessage());
-        }
-         
+        ex.getBindingResult().getFieldErrors().forEach(error -> {
+        	errors.add(error.getField() + ": " + error.getDefaultMessage());
+        	});
+        
         ApiError apiError = new ApiError(status, ex.getClass().getName(),
         		new Timestamp(System.currentTimeMillis()), errors);
         apiError.setTitle("Data Not Valid");

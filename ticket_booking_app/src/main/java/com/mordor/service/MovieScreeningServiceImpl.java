@@ -26,10 +26,15 @@ public class MovieScreeningServiceImpl implements MovieScreeningService{
 	public MovieScreeningServiceImpl(MovieScreeningDAO movieScreeningDAO,
 			MovieScreeningMapper movieScreeningMapper) {
 		this.movieScreeningDAO = movieScreeningDAO;
-		this.movieScreeningMapper = movieScreeningMapper;
-		
+		this.movieScreeningMapper = movieScreeningMapper;	
 	}
 
+	@Override
+	public MovieScreening findById(Long id) {
+		return movieScreeningDAO.findById(id).orElseThrow(() -> 
+			new ResourceNotFoundException("Movie screening with id: " + id +" not found"));
+	}
+	
 	@Override
 	public List<ScreeningsDTO> findAll() {
 		List<MovieScreening> movieScreenings = Lists.newArrayList(movieScreeningDAO.findAll());
@@ -44,7 +49,8 @@ public class MovieScreeningServiceImpl implements MovieScreeningService{
 	@Override
 	public List<ScreeningsDTO> findWithinDate(Instant timeBegin, Instant timeEnd) {
 		List<MovieScreening> movieWithinTimeInterval = Streams.stream(movieScreeningDAO.findAll())
-				.filter(movieSc -> ((MovieScreening) movieSc).getScreeningTime().compareTo(timeBegin) >= 0 && ((MovieScreening) movieSc).getScreeningTime().compareTo(timeEnd) <= 0)
+				.filter(movieSc -> ((MovieScreening) movieSc).getScreeningTime().compareTo(timeBegin) >= 0 && 
+					((MovieScreening) movieSc).getScreeningTime().compareTo(timeEnd) <= 0)
 				.collect(Collectors.toList());
 		
 		List<ScreeningsDTO> result = movieScreeningMapper.mapToDTO(movieWithinTimeInterval);
@@ -55,13 +61,16 @@ public class MovieScreeningServiceImpl implements MovieScreeningService{
 	}
 	
 	private List<ScreeningsDTO> sortByScreeningTime(List<ScreeningsDTO> list) {
-		for(ScreeningsDTO sd : list) {
-			List<MovieScreeningDTO> sorted = sd.getScreeningsList().stream()
-					.sorted(Comparator.comparing(MovieScreeningDTO::getScreeningTime))
-					.collect(Collectors.toList());
-			sd.setScreeningsList(sorted);
-		}
+		list.stream()
+			.forEach(s -> s.setScreeningsList(getSortedByTime(s)));
+
 		return list;
+	}
+	
+	private List<MovieScreeningDTO> getSortedByTime(ScreeningsDTO screeningDTO){
+		return screeningDTO.getScreeningsList().stream()
+				.sorted(Comparator.comparing(MovieScreeningDTO::getScreeningTime))
+				.collect(Collectors.toList());
 	}
 	
 	private List<ScreeningsDTO> sortByTitle(List<ScreeningsDTO> list) {
@@ -71,8 +80,5 @@ public class MovieScreeningServiceImpl implements MovieScreeningService{
 		return sorted;
 	}
 	
-	@Override
-	public MovieScreening findById(Long id) {
-		return movieScreeningDAO.findById(id).orElseThrow(() -> new ResourceNotFoundException("Movie screening with id: " + id +" not found"));
-	}
+	
 }

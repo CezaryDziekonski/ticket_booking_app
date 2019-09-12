@@ -108,7 +108,8 @@ public class ReservationServiceImpl implements ReservationService{
 	
 	@Override
 	public Reservation findById(Long id) {
-		return reservationDAO.findById(id).orElseThrow(() -> new ResourceNotFoundException("Reservation with id: " + id +" not found"));
+		return reservationDAO.findById(id).orElseThrow(() -> 
+			new ResourceNotFoundException("Reservation with id: " + id +" not found"));
 	}
 	
 	@Override
@@ -134,7 +135,9 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 	
 	private boolean isReservationPossibleDueToScreeningTime(Instant screeningTime, Instant timeofReservation) {
-		if(screeningTime.minus(timeofReservation.atZone(ZoneOffset.UTC).getMinute(),ChronoUnit.MINUTES).atZone(ZoneOffset.UTC).getMinute() <= durationToExpirationOfReservation) {
+		if(screeningTime.minus(timeofReservation.atZone(ZoneOffset.UTC).getMinute(),
+				ChronoUnit.MINUTES).atZone(ZoneOffset.UTC).getMinute() <= durationToExpirationOfReservation) {
+			
 			return false;
 		}
 		return true;

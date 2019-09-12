@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,44 +75,18 @@ public class SeatReservationServiceImpl implements SeatReservationService {
 				.collect(Collectors.groupingBy(TicketDTO::getScreeningId, Collectors.toList()));
 		
 		for(Map.Entry<Long, List<TicketDTO>> entry : ticketsPerScreening.entrySet()) {
-			MovieScreening movieScreening = null;
-			List<Seat> reservedSeats = null;
+			List<Long> seatsToReserveIds = ticketList.stream()
+					.map(s -> s.getSeatId())
+					.collect(Collectors.toList());
+			
+			MovieScreening movieScreening = movieScreeningService.findById(entry.getKey());
+			
+			List<Seat> reservedSeats = findReservedSeats(movieScreening);
+			List<Seat> seatsToReserve = seatService.findByIds(seatsToReserveIds);
 	
-			movieScreening = movieScreeningService.findById(entry.getKey());
-			reservedSeats = findReservedSeats(movieScreening);
-			
-			if(movieScreening != null) {
-				
-				List<Long> seatsToReserveIds = entry.getValue().stream()
-						.map(s -> s.getSeatId())
-						.collect(Collectors.toList());
-				
-				
-				List<Seat> seatsToReserve = seatService.findByIds(seatsToReserveIds);
-				
-				List<Seat> seatsSimulation = new ArrayList<>();
-				seatsSimulation.addAll(reservedSeats);
-				seatsSimulation.addAll(seatsToReserve);
-				
-				Map<Integer, List<Seat>> seatsPerRow = seatsSimulation.stream()
-						.collect(Collectors.groupingBy(Seat::getRow, Collectors.toList()));
-				
-				for(Map.Entry<Integer, List<Seat>> rowEntry : seatsPerRow.entrySet()) {
-					List<Seat> sortedSeats = rowEntry.getValue().stream()
-						.sorted(Comparator.comparing(Seat::getSeatNumber))
-						.collect(Collectors.toList());
-					
-					for (int i = 0; i < sortedSeats.size() - 1; i++) {
-						//check left over seat
-						if (sortedSeats.get(i+1).getSeatNumber() - sortedSeats.get(i).getSeatNumber() == 2) {
-							new LeftOverSeatsException(
-									"Left over seat beetween seat id: " + sortedSeats.get(i) + 
-									" and seat id:" + sortedSeats.get(i+1));
-						}
-					}
-				}
+			if(checkLeftOverSeat(seatsToReserve, reservedSeats)) {
+				return true;
 			}
-			
 		}
 		return false;
 	}
@@ -129,7 +105,6 @@ public class SeatReservationServiceImpl implements SeatReservationService {
 		
 		return result;
 	}
-	
 		
 	@Override
 	public List<Seat> findFreeSeats(MovieScreening movieScreening) {
@@ -151,5 +126,29 @@ public class SeatReservationServiceImpl implements SeatReservationService {
 		
 		return seatReservations;
 	}
-	
+
+	private boolean checkLeftOverSeat(List<Seat> seatsToReserve, List<Seat> reservedSeats) {
+		List<Seat> seatsSimulation = new ArrayList<>();
+		seatsSimulation.addAll(reservedSeats);
+		seatsSimulation.addAll(seatsToReserve);
+		
+		Map<Integer, List<Seat>> seatsPerRow = seatsSimulation.stream()
+				.collect(Collectors.groupingBy(Seat::getRow, Collectors.toList()));
+		
+		for(Map.Entry<Integer, List<Seat>> rowEntry : seatsPerRow.entrySet()) {
+			List<Seat> sortedSeats = rowEntry.getValue().stream()
+					.sorted(Comparator.comparing(Seat::getSeatNumber))
+					.collect(Collectors.toList());
+			
+			for(int i = 0; i < sortedSeats.size()-1; i++) {
+				if(sortedSeats.get(i+1).getSeatNumber() - sortedSeats.get(i).getSeatNumber() == 2) {
+					new LeftOverSeatsException(
+							"Left over seat beetween seat id: " + sortedSeats.get(i) + 
+							" and seat id:" + sortedSeats.get(i+1));
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
