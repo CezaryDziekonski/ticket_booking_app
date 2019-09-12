@@ -19,7 +19,6 @@ insert into room (room_name) values ('ROOM 1');
 insert into room (room_name) values ('ROOM 2');
 insert into room (room_name) values ('ROOM 3');
 
-
 insert into seat (seat_row, seat_number,fk_room_id) values (1,1,1);
 insert into seat (seat_row, seat_number,fk_room_id) values (1,2,1);
 insert into seat (seat_row, seat_number,fk_room_id) values (1,3,1);
@@ -53,7 +52,6 @@ insert into seat (seat_row, seat_number,fk_room_id) values (2,10,1);
 insert into seat (seat_row, seat_number,fk_room_id) select seat_row, seat_number, 2 as fk_room_id from seat where fk_room_id = 1;
 insert into seat (seat_row, seat_number,fk_room_id) select seat_row, seat_number, 3 as fk_room_id from seat where fk_room_id = 1;
 
-
 insert into movie_screening (screening_time, fk_movie_id, fk_room_id) values('2019-12-04T10:30:00',1,1);
 insert into movie_screening (screening_time, fk_movie_id, fk_room_id) values('2019-12-04T12:30:00',1,1);
 insert into movie_screening (screening_time, fk_movie_id, fk_room_id) values('2019-12-04T14:30:00',1,1);
@@ -76,7 +74,6 @@ insert into movie_screening (screening_time, fk_movie_id, fk_room_id) values('20
 insert into ticket_type(ticket_type_name, price) values('adult', 25.00);
 insert into ticket_type(ticket_type_name, price) values('student', 18.00);
 insert into ticket_type(ticket_type_name, price) values('child', 12.50);
-
 /*
 insert into reservation(expiration_time, name, surname) values('2019-07-03T10:00:00', 'Michał','Sadowski');
 insert into reservation(expiration_time, name, surname) values('2019-07-03T10:00:00', 'Jacek','Kozłowski');
@@ -84,8 +81,6 @@ insert into reservation(expiration_time, name, surname) values('2019-07-03T10:00
 insert into reservation(expiration_time, name, surname) values('2019-07-03T10:00:00', 'Rafał','Broniewski');
 insert into reservation(expiration_time, name, surname) values('2019-07-03T10:00:00', 'Ewa','Sokołowska');
 insert into reservation(expiration_time, name, surname) values('2019-07-03T10:00:00', 'Natalia','Dera');
-
-
 insert into seat_reservation(fk_movie_screening_id, fk_seat_id, fk_reservation_id, fk_ticket_type_id) values(1,3,1,1);
 insert into seat_reservation(fk_movie_screening_id, fk_seat_id, fk_reservation_id, fk_ticket_type_id) values(1,4,1,1);
 insert into seat_reservation(fk_movie_screening_id, fk_seat_id, fk_reservation_id, fk_ticket_type_id) values(1,10,2,2);
@@ -93,7 +88,3 @@ insert into seat_reservation(fk_movie_screening_id, fk_seat_id, fk_reservation_i
 insert into seat_reservation(fk_movie_screening_id, fk_seat_id, fk_reservation_id, fk_ticket_type_id) values(1,12,2,3);
 insert into seat_reservation(fk_movie_screening_id, fk_seat_id, fk_reservation_id, fk_ticket_type_id) values(1,16,3,3);
 */
-
-
-
-

@@ -22,7 +22,8 @@ public class SeatServiceImpl implements SeatService{
 
 	@Override
 	public Seat findById(Long id) {
-		return seatDAO.findById(id).orElseThrow( () -> new ResourceNotFoundException("Seat with id: " + id + " not found"));
+		return seatDAO.findById(id).orElseThrow( 
+				() -> new ResourceNotFoundException("Seat with id: " + id + " not found"));
 	}
 	
 	@Override

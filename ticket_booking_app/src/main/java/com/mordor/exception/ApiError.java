@@ -24,5 +24,5 @@ public class ApiError {
         this.message = message;
         this.timeStamp = timeStamp;
         this.errors = errors;
-    } 
-}
+    }     
+} 
