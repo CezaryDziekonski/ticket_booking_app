@@ -29,7 +29,10 @@ import com.mordor.model.enitity.SeatReservation;
 import com.mordor.model.mapper.MapperDTO;
 import com.mordor.utils.ReservationExpirationTask;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class ReservationServiceImpl implements ReservationService{
 	
 	private ReservationDAO reservationDAO;	        	
@@ -66,6 +69,7 @@ public class ReservationServiceImpl implements ReservationService{
 	
 	@Override
 		public void deleteById(Long id) {
+			log.info("Delete reservation with id " + id);
 			reservationDAO.deleteById(id);
 	}
 
@@ -95,7 +99,7 @@ public class ReservationServiceImpl implements ReservationService{
 		seatReservations.stream()
 			.forEach(s -> s.setReservation(reservation));
 		
-		
+		log.info("Save Reservation with id " + reservation.getId());
 		reservationDAO.save(reservation);
 		seatReservations.stream()
 			.forEach(s -> seatReservationService.save(s));
@@ -114,6 +118,7 @@ public class ReservationServiceImpl implements ReservationService{
 	@Override
 	public void confirmReservation(Long id) {
 		Reservation reservation = findById(id);
+		log.info("Confirm reservation with id " + id);
 		reservation.setConfirmed(true);
 		reservationDAO.save(reservation);
 	}
