@@ -17,7 +17,8 @@ import org.springframework.stereotype.Service;
 import com.mordor.dao.ReservationDAO;
 import com.mordor.dao.SeatReservationDAO;
 import com.mordor.exception.ResourceNotFoundException;
-import com.mordor.exception.LeftOverSeatsException;
+import com.mordor.exception.SeatReservedException;
+import com.mordor.exception.ReservationTimeException;
 import com.mordor.model.ReservationConfirmation;
 import com.mordor.model.dto.ReservationConfirmationDTO;
 import com.mordor.model.dto.ReservationDTO;
@@ -55,6 +56,17 @@ public class ReservationServiceImpl implements ReservationService{
 		this.reservationExpirationTask = reservationExpirationTask;
 		this.reservationConfirmationMapper = reservationConfirmationMapper;
 		this.reservationMapper = reservationMapper;
+	}
+	
+	@Override
+	public Reservation findById(Long id) {
+		return reservationDAO.findById(id).orElseThrow(() -> 
+			new ResourceNotFoundException("Reservation with id: " + id +" not found"));
+	}
+	
+	@Override
+		public void deleteById(Long id) {
+			reservationDAO.deleteById(id);
 	}
 
 	@Override
@@ -106,31 +118,20 @@ public class ReservationServiceImpl implements ReservationService{
 		reservationDAO.save(reservation);
 	}
 	
-	@Override
-	public Reservation findById(Long id) {
-		return reservationDAO.findById(id).orElseThrow(() -> 
-			new ResourceNotFoundException("Reservation with id: " + id +" not found"));
-	}
-	
-	@Override
-		public void deleteById(Long id) {
-			reservationDAO.deleteById(id);
-	}
-	
 	private void checkFreeSeatReservation(MovieScreening movieScreening, List<Seat> seatsToReserve) {
 		List<Seat> reservedSeats = seatReservationService.findReservedSeats(movieScreening);
 		List<Seat> seatToReserveInReservedSeats = new ArrayList<>();
 		seatToReserveInReservedSeats.addAll(seatsToReserve);
 		seatToReserveInReservedSeats.retainAll(reservedSeats);
 		if(seatToReserveInReservedSeats.size() > 0) {
-			 new LeftOverSeatsException("Seat reserved");
+			 new SeatReservedException();
 		}
 	}
 	
 	private void checkTimeToScreening(MovieScreening movieScreening, Instant timeofReservation) {
 		Instant screeningTime = movieScreeningService.findById(movieScreening.getId()).getScreeningTime();
 		if(!isReservationPossibleDueToScreeningTime(screeningTime, timeofReservation)) {
-			 new LeftOverSeatsException("Reservation too late");
+			 new ReservationTimeException();
 		}
 	}
 	

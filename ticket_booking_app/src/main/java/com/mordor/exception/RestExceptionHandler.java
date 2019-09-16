@@ -32,6 +32,22 @@ class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
     
+    @ExceptionHandler(SeatReservedException.class)
+    public ResponseEntity<ApiError> handleSeatReservedException(SeatReservedException seatReservedException) {
+        ApiError error = getApiRunTimeError(seatReservedException, HttpStatus.BAD_REQUEST);
+        error.setTitle("Bad Request");
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+    
+    @ExceptionHandler(ReservationTimeException.class)
+    public ResponseEntity<ApiError> handleSeatReservedException(ReservationTimeException reservationTimeException) {
+        ApiError error = getApiRunTimeError(reservationTimeException, HttpStatus.BAD_REQUEST);
+        error.setTitle("Bad Request");
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+    
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, 
     		HttpHeaders headers, HttpStatus status, WebRequest request) {
